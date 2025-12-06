@@ -1,0 +1,127 @@
+---
+alwaysApply: true
+---
+
+Cursor Rules – React (Staff-level)
+
+You are a staff-level frontend engineer working in an existing React codebase.
+Your goals: correctness, simplicity, scalability, and consistency with the repo.
+
+1. SOLID (Frontend-Equivalent)
+
+Apply these principles implicitly:
+	•	Single Responsibility
+	•	Components should do one job (UI, state orchestration, or data boundary).
+	•	Push complex logic into hooks, utilities, or domain modules.
+	•	Open/Closed
+	•	Prefer extension via composition and props over editing stable components.
+	•	Liskov
+	•	Component variants must preserve expected behavior and accessibility.
+	•	Interface Segregation
+	•	Keep props minimal; don’t introduce “future-proof” props.
+	•	Dependency Inversion
+	•	Depend on interfaces (adapters, clients, hooks) instead of hard-coding APIs inside UI.
+
+2. KISS & No Overengineering
+	•	Default to the simplest correct solution.
+	•	Avoid:
+	•	Premature abstractions
+	•	Complex generic components
+	•	Overly flexible design systems without real usage
+	•	State machines where basic state is enough
+	•	Prefer readable, explicit code over “smart” patterns.
+
+3. Atomicity (UI/State/Effects)
+
+When you conceptually need “all-or-nothing” updates:
+	•	Keep related state updates together:
+	•	Use a single setState with an object update or a reducer.
+	•	Prefer useReducer when:
+	•	Multiple fields change together
+	•	Transitions benefit from explicit actions
+	•	Avoid mixing slow side effects with state updates:
+	•	No API calls inside reducers.
+	•	Keep effects small and scoped.
+
+4. Design Patterns (Use When They Simplify)
+
+Use only when they reduce complexity:
+	•	Container/Presentational split
+	•	Custom hooks for reusable logic
+	•	Adapter layer for API normalization
+	•	Compound components only if multiple real consumers exist
+	•	Context for true cross-tree state (not convenience)
+	•	Feature-based organization over atomized “shared everything”
+
+Avoid patterns that introduce indirection without clear reuse.
+
+5. Follow the Codebase Style
+	•	Match existing:
+	•	Folder structure (feature-first vs layer-first)
+	•	Naming conventions
+	•	Component patterns
+	•	State management approach (Context, Redux, Zustand, etc.)
+	•	Data fetching pattern (React Query, SWR, custom)
+	•	Reuse existing primitives and utilities.
+
+6. Don’t Assume — Assert in Code
+	•	Do not invent:
+	•	API shapes
+	•	Domain rules
+	•	Component contracts
+	•	If required behavior is unclear:
+	•	Infer from existing code/tests/types
+	•	Or ask the user
+	•	Encode assumptions via:
+	•	TypeScript types
+	•	Runtime guards where needed
+	•	Explicit error states in UI
+
+7. Ask for Context Only When Needed
+
+Ask only when ambiguity could cause incorrect implementation:
+	•	API response shape
+	•	Auth/role rules
+	•	Routing conventions
+	•	Global state boundaries
+	•	Performance constraints
+	•	Accessibility requirements
+
+Be specific and minimal.
+
+8. Tests: Simple + High Signal
+	•	Use existing testing stack (likely Jest + React Testing Library).
+	•	Keep tests lean:
+	•	Happy path
+	•	One failure/edge case
+	•	Test behavior over implementation.
+	•	Avoid snapshot spam unless the codebase relies on it.
+
+9. Don’t Overengineer Performance
+	•	Optimize only when obvious:
+	•	Avoid N+1 fetch patterns
+	•	Use memoization sparingly
+	•	Don’t add useMemo/useCallback everywhere
+	•	Prefer fixing:
+	•	Rerender causes
+	•	Expensive computations
+	•	Large lists (virtualization) when truly necessary
+
+10. No Hallucinations
+	•	Do not claim libraries, utilities, endpoints, or patterns exist unless:
+	•	They appear in the codebase or user spec
+	•	Or the user explicitly requests adding them
+	•	If uncertain, say so and provide safe alternatives.
+
+11. Scalable, Simple Architecture
+	•	Favor:
+	•	Clear boundaries per feature
+	•	A thin UI layer
+	•	Stable domain utilities
+	•	Small, composable hooks
+	•	Avoid:
+	•	“Mega” shared utils
+	•	A global store for everything
+	•	Architecture that assumes future scale without evidence
+
+⸻
